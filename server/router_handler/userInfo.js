@@ -3,11 +3,13 @@
 // 42.导入数据库操作模块
 const db = require('../database/index')
 
+const path = require('path')
+
 // 54.导入处理加密密码的模块
 const bcrypt = require('bcryptjs')
 exports.getUserInfo = (req, res) => {
   // 43.定义查询用户信息的SQL语句
-  const getUserInfoSQL = 'select id,username,nickname,email,avatar from ev_users where id=?'
+  const getUserInfoSQL = 'select id,tel,username,nickname,email,avatar from ev_users where id=?'
   // 44.调用db.query()执行SQL语句
   // 只要身份认证成功了,解析token的中间件就会向req身上挂载一个新的属性叫做req.user,是固定写法
   db.query(getUserInfoSQL, req.user.id, (err, results) => {
@@ -31,6 +33,7 @@ exports.updateUserInfo = (req, res) => {
   const updateUserInfoSQL = 'update ev_users set ? where id=?'
   // 调用db.query()执行SQL语句并传递参数,数组里的内容是占位符
   db.query(updateUserInfoSQL, [req.body, req.body.id], (err, results) => {
+    console.log(req.body);
     // 执行SQL语句失败
     if (err) { return res.cc(err) }
     // 执行SQL语句成功,但是行数不等于一
@@ -38,7 +41,11 @@ exports.updateUserInfo = (req, res) => {
       return res.cc('用户不存在!')
     }
     // 成功
-    res.send('更新用户信息成功')
+    res.send({
+      status: 0,
+      message: '更新用户信息成功',
+      data: results[0]
+    })
   })
 }
 
@@ -71,13 +78,19 @@ exports.updatePassword = (req, res) => {
 
 }
 
+
+// 66.定义上传文件的方法
 exports.updateAvatar = (req,res)=>{
-  // 62.修改头像的具体实现
   const updateAvatarSQL = 'update ev_users set avatar=? where id=?'
-  db.query(updateAvatarSQL,[req.body.avatar,req.user.id],(err,results)=>{
+  db.query(updateAvatarSQL,['uploads/'+path.basename(req.file.path),req.user.id],(err,results)=>{
     if(err){return res.cc(err)}
     // 判断影响行数是否等于1
     if(results.affectedRows!==1){return res.cc('更换头像失败')}
-    res.send('更换头像成功')
+    res.send({
+      status:0,
+      message:'上传成功',
+      name:req.file.originalname,
+      filePath:'uploads/'+path.basename(req.file.path)
+    })
   })
 }

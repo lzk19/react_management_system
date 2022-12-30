@@ -1,26 +1,23 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import { UserOutlined } from '@ant-design/icons'
-import { reqLogin } from '../../api';
-import store from '../../redux/store';
+import { reqLogin } from '../../api/user';
 import './login.scss'
 import { connect } from 'react-redux';
 import { saveUserInfo } from '../../redux/actions/login';
+
 function Login(props) {
   const navigate = useNavigate()
-  React.useEffect(()=>{
-    console.log('props',props);
-  },[])
+  React.useEffect(() => {
+  }, [])
   const onFinish = (values) => {
     const { username, password } = values
     reqLogin(username, password).then((res) => {
-      console.log('res', res);
       if (res.status === 0) {
-        const { username, password, email, phone, role } = res.data
-        const info = { user:{username, password, email, phone, role}}
+        const { user: { id, username, nickname, email, avatar,tel }, token } = res.data
+        const info = {user:{id, username, nickname, email, avatar,tel},token}
         props.saveUserInfo(info)
-        navigate('/admin')
+        navigate('/home')
       } else {
         message.error('账号或密码错误')
       }
@@ -34,7 +31,7 @@ function Login(props) {
 
 
   return (
-    <div id="login" style={{ height: document.documentElement.clientHeight }}>
+    <div id="login">
       <div className='header'>
         <h1>E-commerce Back Management System</h1>
       </div>
@@ -103,7 +100,7 @@ function Login(props) {
 
 const mapStateToProps = (state) => {
   return {
-    userInfo:state.userInfo
+    userInfo: state.userInfo
   }
 }
 

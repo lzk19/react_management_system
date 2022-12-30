@@ -22,7 +22,6 @@ const password = joi.string().pattern(/^[\S]{6,12}$/).required()
 const id = joi.number().integer().min(1).required()
 const nickname = joi.string().required()
 const email = joi.string().email().required()
-
 // 60.定义修改头像的验证规则(以路径形式将图片存储到数据库中)
 const avatar = joi.string().required()
 
@@ -37,9 +36,9 @@ exports.reg_login_schema = {
 // 46.修改用户信息的验证规则对象
 exports.update_userInfo_schema ={
   // 需要对req.body里面的数据进行验证
-  body:{
-    id,nickname,email
-  }
+  // body:{
+  //   id,tel,email
+  // }
 }
 
 // 52.修改密码的验证规则对象

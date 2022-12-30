@@ -1,0 +1,34 @@
+.avatar-uploader{
+  padding-left: 120px;
+}
+.info-form{
+  margin-top: 20px;
+  width: 800px;
+  text-align: center;
+  .ant-form-item{
+    width: 300px;
+  }
+  .confirm-btn{
+    margin-top: 15px;
+  }
+}
+.password-box{
+  display: flex;
+  .password-label{
+    margin-left: 8px;
+    line-height: 32px;
+  }
+  .password-input{
+    width: 225px;
+    margin-left: 7px;
+    svg{
+      display: none;
+    }
+  }
+  .edit-icon{
+    font-size: 18px;
+    line-height: 32px;
+    margin-left: 5px;
+    color: #1890ff;
+  }
+}

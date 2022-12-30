@@ -59,7 +59,7 @@ exports.login = (req,res)=>{
 
   db.query(ifHasSql,userInfo.username,(err,results)=>{
     // results就是从数据库里查询出来的结果
-    if(err){return res.cc(err)}
+    if(err){return res.cc(err+'出错')}
     // 31.1判断用户名是否填写正确
     if(results.length!==1){return res.cc('用户名错误!')}
     // 31.2判断用户名密码是否填写正确 调用bcrypt.compareSync(用户输入的密码,数据库中的密码)，返回结果是布尔值
@@ -76,12 +76,20 @@ exports.login = (req,res)=>{
     // 36.对用户的信息进行加密，生成token字符串
     // 调用jwt.sign方法，传入三个参数，第一个是要加密的对象，第二个是密钥，第三个是token有效期
     const token = jwt.sign(user,config.jwtSecretKey,{expiresIn:config.expresIin})
+    
+    const {id,username,nickname,email,avatar,tel} = results[0]
+    console.log(results[0]);
     // 37.调用res.send()将token响应给客户端
     res.send({
       status:0,
       message:'登录成功!',
-      // 给token添加前缀，方便前端使用
-      token:'Bearer '+token,
+      data:{
+        user:{
+          id,username,nickname,email,avatar,tel
+        },
+        // 给token添加前缀，方便前端使用
+        token:'Bearer '+token,
+      },
     })
   })
   

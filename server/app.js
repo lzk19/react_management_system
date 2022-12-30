@@ -8,11 +8,14 @@ const joi = require('joi')
 // 2.创建express的服务器实例
 const app = express()
 
+// 71.将public文件夹暴露出去
+app.use(express.static('public'));
 
 // 5.将cors注册为全局中间件
 app.use(cors())
 // 6.配置解析表单数据的中间件
-app.use(express.urlencoded({extended:false}))
+app.use(express.json()) //用于处理前端传过来的json数据格式
+app.use(express.urlencoded({extended:false})) //用于处理前端传过来的x-www-form-urlencoded数据格式
 
 // 26.一定要在路由之前，封装res.cc函数对错误进行统一处理
 app.use((req,res,next)=>{
@@ -40,15 +43,15 @@ app.use('/pub',userRouter)
 // 40.导入并使用用户信息的路由模块
 const userInfoRouter = require('./router/userInfo')
 app.use(userInfoRouter)
-
-
-
+// 75.导入并使用商品信息的路由模块
+const commodityInfoRouter = require('./router/commodity')
+app.use(commodityInfoRouter)
 // 30.定义错误级别的中间件，放在路由之后
 app.use(function(err,req,res,next){
   // 数据验证失败
   if(err instanceof joi.ValidationError) return res.cc(err)
   // token没有或过期，身份认证失败
-  if(err.name === 'UnauthorizedError') return res.cc('身份认证失败!')
+  if(err.name === 'UnauthorizedError') return res.cc('身份认证失败!请重新登录!')
   // 未知错误
   res.cc(err)
 })

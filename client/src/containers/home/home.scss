@@ -1,29 +1,41 @@
 .sider{
   background:  #d9dde4;
   .title{
+    background: #d9dde4;
     color: #647775;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
     text-align: center;
     font-size: 30px;
-    border-bottom: 1px solid rgb(137, 150, 155);
+    // border-bottom: 1px solid rgb(137, 150, 155);
   }
   .menu{
+    margin-top: 0px;
     background:  #d9dde4;
     // background:  linear-gradient(to bottom, rgba(254, 180, 133,0.5) 0%, rgba(50, 47, 104,0.5) 100%);
   }
 }
-.welcome{
-  font-size: 20px;
-  color: #647775;
-  line-height: 50px;
-  margin-left: 80%;
+.site-layout-background{
+  height: 54px;
+  padding-right:20px;
+  .welcome-box{
+    height: 54px;
+    width: 250px;
+    line-height: 54px;
+    float: right;
+    .welcome{
+      font-size: 20px;
+      color: #647775;
+    }
+    .logout{
+      right: 20px;
+      margin-left: 20px;
+      font-size: 18px;
+      color: #647775;
+    }
+  }
+
 }
-.logout{
-  margin-left: 20px;
-  font-size: 18px;
-  color: #647775;
-}
+
 #components-layout-demo-side .logo {
   height: 32px;
   margin: 16px;
@@ -31,7 +43,7 @@
 }
 
 .site-layout .site-layout-background {
-  background: #fff;
+  background: #d9dde4;
 }
 .ant-layout-sider-trigger{
   background: #b5b9c0; 

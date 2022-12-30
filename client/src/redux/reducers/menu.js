@@ -1,7 +1,10 @@
-import { SAVE_CURRENT_MENU, CLEAR_CURRENT_MENU } from "../constant";
+import { SAVE_CURRENT_MENU, CLEAR_CURRENT_MENU,GET_CURRENT_MENU } from "../constant";
 
 
-const initState =  '1'
+var initState =  sessionStorage.getItem('currentMenu')
+if(initState===null){
+  initState='/home'
+}
 export default function menuReducer(preState = initState, action) {
   const { type } = action
   switch (type) {

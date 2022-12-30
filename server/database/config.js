@@ -6,6 +6,7 @@ module.exports = {
     port:3306, //MySQL默认端口号为3306,
     user:'root', //MySQL账号
     password:'123456', //MySQL密码
-    database:'react_project' //数据库名称
+    database:'react_project', //数据库名称
+    useConnectionPooling: true
   }
 }
