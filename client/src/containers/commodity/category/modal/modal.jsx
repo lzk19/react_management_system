@@ -1,12 +1,15 @@
-import React, { useRef, useState,useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Button, Form, Input, message, Modal, Radio } from 'antd';
-import { reqCreateCategoryInfo,reqUpdateCategoryInfo } from '../../../../api/commodity';
+import { reqCreateCategoryInfo, reqUpdateCategoryInfo, reqCreateSubcategoryInfo, reqUpdateSubcategoryInfo } from '../../../../api/commodity';
 const CreateModal = (props) => {
-  console.log('props',props);
-  // console.log(props.type);
   const [form] = Form.useForm();
   const myForm = useRef()
-  
+
+  useEffect(() => {
+    console.log('props', props);
+    form.setFieldsValue({ categoryName: props.info.name })
+  }, [props.open])
+
   const onCancel = () => {
     props.getOpen(false);
     form.resetFields();
@@ -24,39 +27,73 @@ const CreateModal = (props) => {
   }
 
   const onCreate = (values) => {
-    if (props.type === "Create") {
-      const body = {
-        categoryInfo: {
-          info: {
-            name: values.categoryName
+    if (props.level === "top") {
+      if (props.type === "Create") {
+        const body = {
+          categoryInfo: {
+            info: {
+              name: values.categoryName
+            }
           }
         }
-      }
-      reqCreateCategoryInfo(body).then((res) => {
-        message.success('Create success!')
-        props.getOpen(false,'submit');
-      })
-    }else{
-      const params = {
-        categoryInfo: {
-          id:props.info.id,
-          info: {
-            name: values.categoryName
+        reqCreateCategoryInfo(body).then((res) => {
+          message.success('Create success!')
+          props.getOpen(false, 'submit');
+        })
+      } else {
+        const params = {
+          categoryInfo: {
+            id: props.info.id,
+            info: {
+              name: values.categoryName
+            }
           }
         }
+        reqUpdateCategoryInfo(params).then((res) => {
+          message.success('Update success!')
+          props.getOpen(false, 'submit');
+        })
       }
-      reqUpdateCategoryInfo()
+    } else {
+      if (props.type === "Create") {
+        const body = {
+          subcategoryInfo: {
+            info: {
+              name: values.categoryName,
+              parentId: props.info.parentId,
+            }
+          }
+        }
+        reqCreateSubcategoryInfo(body).then((res) => {
+          message.success('Create success!')
+          props.getOpen(false, 'sub-submit', props.info.parentId);
+        })
+      } else {
+        const params = {
+          subcategoryInfo: {
+            id: props.info.id,
+            info: {
+              name: values.categoryName
+            }
+          }
+        }
+        reqUpdateSubcategoryInfo(params).then((res) => {
+          message.success('Update success!')
+          props.getOpen(false, 'sub-submit', props.info.parentId);
+        })
+      }
     }
+
 
   };
 
   return (
     <Modal
+      forceRender={true}
       width={450}
       open={props.open}
-
-      title={props.type + ' category'}
-      okText="Create"
+      title={props.level === "top" ? props.type + ' Category' : props.type + ' Subcategory'}
+      okText={props.type}
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={onOk}
@@ -68,13 +105,10 @@ const CreateModal = (props) => {
         labelCol={{ offset: -2, span: 8 }}
         labelAlign="left"
       >
-
         <Form.Item
-              initialValues={
-                props.info.name
-              }
           name="categoryName"
-          label="Category Name"
+          label={props.level === "top" ? "Top Category Name" : "Subcategory Name"}
+          labelCol={{ span: 10 }}
           rules={[
             {
               required: true,
@@ -82,7 +116,7 @@ const CreateModal = (props) => {
             },
           ]}
         >
-          <Input allowClear/>
+          <Input allowClear />
         </Form.Item>
 
       </Form>

@@ -58,7 +58,7 @@ function Info(props) {
   );
   const onFinish = (values) => {
     reqUpdateUserInfo({ ...values, id: props.userInfo.user.id }).then(() => {
-      message.success('修改成功')
+      message.success('Update success!')
     })
     getUserInfo()
     

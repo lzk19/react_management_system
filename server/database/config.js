@@ -7,6 +7,6 @@ module.exports = {
     user:'root', //MySQL账号
     password:'123456', //MySQL密码
     database:'react_project', //数据库名称
-    useConnectionPooling: true
+    // useConnectionPooling: true
   }
 }

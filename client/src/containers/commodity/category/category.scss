@@ -1,6 +1,13 @@
 .create-btn-box{
-  text-align: right;
+  display: flex;
+  .category-title{
+    cursor: pointer;
+    color: #1890ff;
+    line-height: 32px;
+    margin-left: 15px;
+  }
   .create-btn{
+    margin-left: auto;
   }
 }
 

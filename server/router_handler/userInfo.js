@@ -26,6 +26,23 @@ exports.getUserInfo = (req, res) => {
   })
 }
 
+exports.getAllUserInfo = (req, res) => {
+  // 43.定义查询用户信息的SQL语句
+  const getUserInfoSQL = 'select id,tel,username,email,registrationTime,role from ev_users'
+  // 44.调用db.query()执行SQL语句
+  // 只要身份认证成功了,解析token的中间件就会向req身上挂载一个新的属性叫做req.user,是固定写法
+  db.query(getUserInfoSQL, (err, results) => {
+    // 执行SQL语句失败
+    if (err) { return res.cc(err) }
+    // 执行SQL语句成功,但是查询的结果可能为空
+    // 用户信息获取成功
+    res.send({
+      status: 0,
+      message: '获取用户信息成功',
+      data: results
+    })
+  })
+}
 
 exports.updateUserInfo = (req, res) => {
   // 49.更新用户基本信息的处理函数具体操作
@@ -78,11 +95,27 @@ exports.updatePassword = (req, res) => {
 
 }
 
+exports.deleteUserInfo = (req, res) => {
+  const {userInfo} = req.body
+  // 74.定义查询商品分类信息的SQL语句
+  const deleteUserInfoSQL = 'delete from ev_users where id=?'
+  db.query(deleteUserInfoSQL,userInfo.id,(err, results) => {
+    // 执行SQL语句失败
+    if (err) { return res.cc(err) }
+    if (results.affectedRows !== 1) {
+      return res.cc('用户不存在!')
+    }
+    res.send({
+      status: 0,
+      message: '删除用户信息成功',
+    })
+  })
+}
 
 // 66.定义上传文件的方法
 exports.updateAvatar = (req,res)=>{
   const updateAvatarSQL = 'update ev_users set avatar=? where id=?'
-  db.query(updateAvatarSQL,['uploads/'+path.basename(req.file.path),req.user.id],(err,results)=>{
+  db.query(updateAvatarSQL,['uploads/avatar/'+path.basename(req.file.path),req.user.id],(err,results)=>{
     if(err){return res.cc(err)}
     // 判断影响行数是否等于1
     if(results.affectedRows!==1){return res.cc('更换头像失败')}
@@ -90,7 +123,7 @@ exports.updateAvatar = (req,res)=>{
       status:0,
       message:'上传成功',
       name:req.file.originalname,
-      filePath:'uploads/'+path.basename(req.file.path)
+      filePath:'uploads/avatar/'+path.basename(req.file.path)
     })
   })
 }

@@ -1,9 +1,14 @@
 import React from 'react'
-
-export default function line() {
+import { Button } from 'antd'
+export default function Line() {
   return (
     <div>
-      line
+      <div className='refresh-box'>
+      <Button type="primary">Refresh</Button>
+      </div>
+      <div>
+        
+      </div>
     </div>
   )
 }

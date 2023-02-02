@@ -1,9 +1,14 @@
 import React from 'react'
-
-export default function bar() {
+import { Button } from 'antd'
+export default function Bar() {
   return (
     <div>
-      bar
+      <div className='refresh-box'>
+      <Button type="primary">Refresh</Button>
+      </div>
+      <div>
+
+      </div>
     </div>
   )
 }

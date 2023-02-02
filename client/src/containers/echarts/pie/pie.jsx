@@ -1,9 +1,14 @@
 import React from 'react'
-
-export default function pie() {
+import { Button } from 'antd'
+export default function Pie() {
   return (
     <div>
-      pie
+      <div className='refresh-box'>
+      <Button type="primary">Refresh</Button>
+      </div>
+      <div>
+        
+      </div>
     </div>
   )
 }

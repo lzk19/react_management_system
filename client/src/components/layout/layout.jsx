@@ -184,7 +184,7 @@ function MainLayout(props) {
         {/* 主体内容 */}
         <Content style={{ margin: '0 16px' }}>
           {/* 面包屑 */}
-          <Breadcrumb style={{ margin: '9px 0' }}>
+          <Breadcrumb style={{ margin: '9px 0',height:"22px" }}>
             {urlPath.map((item) => {
               return <Breadcrumb.Item key={item} >{item.slice(0, 1).toUpperCase() + item.slice(1)}</Breadcrumb.Item>
             })}
@@ -192,10 +192,12 @@ function MainLayout(props) {
           <Card
             style={{
               width: '100%',
+              height:'100%'
             }}
           >
             {/* 子组件展示区 */}
             <Outlet></Outlet>
+            
           </Card>
         </Content>
       </Layout>

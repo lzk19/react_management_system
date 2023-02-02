@@ -1,0 +1,22 @@
+
+.search-box{
+  display: flex;
+  .search-input{
+    width: 150px;
+    margin-left: 15px;
+  }
+  .search-btn{
+    width: 72px;
+    margin-left: 15px;
+  }
+  .create-btn{
+    margin-left: auto;
+  }
+  margin-bottom: 10px;
+}
+.back-title{
+  cursor: pointer;
+  color: #1890ff;
+  line-height: 32px;
+  margin-left: 5px;
+}

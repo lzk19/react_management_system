@@ -22,10 +22,19 @@ const password = joi.string().pattern(/^[\S]{6,12}$/).required()
 const id = joi.number().integer().min(1).required()
 const nickname = joi.string().required()
 const email = joi.string().email().required()
+const tel = joi.string().required()
 // 60.定义修改头像的验证规则(以路径形式将图片存储到数据库中)
 const avatar = joi.string().required()
-
+const registrationTime = joi.required()
+const role = joi.required()
 // 定义验证注册和登录表单的验证规则对象
+exports.reg_register_schema = {
+  // 表示需要对req.body中的数据进行验证
+  body:{
+    username,password,email,tel,registrationTime,role
+  }
+}
+
 exports.reg_login_schema = {
   // 表示需要对req.body中的数据进行验证
   body:{
